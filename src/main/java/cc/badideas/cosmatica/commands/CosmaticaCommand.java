@@ -133,6 +133,7 @@ public class CosmaticaCommand extends Command {
                             PLACING SCHEMATICS:
                             /cosmatica origin - Sets the origin of the schematic to the block you are looking at.
                             /cosmatica place - Places the selected schematic in the world.
+                            /cosmatica undo - Undo placing a schematic.
                             
                             CREATING SCHEMATICS:
                             /cosmatica id [string] - Set the ID of the schematic. String cannot contain spaces.
