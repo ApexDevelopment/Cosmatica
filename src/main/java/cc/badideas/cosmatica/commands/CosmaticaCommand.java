@@ -3,6 +3,8 @@ package cc.badideas.cosmatica.commands;
 import cc.badideas.cosmatica.*;
 import cc.badideas.cosmatica.block.PositionedBlockState;
 import cc.badideas.cosmatica.gamestates.CosmaticaMenu;
+import cc.badideas.cosmatica.mixin.BlockSelectionAccessor;
+import cc.badideas.cosmatica.mixin.InGameAccessor;
 import cc.badideas.cosmatica.schematic.SchematicManager;
 import cc.badideas.cosmatica.util.CosmaticaUtils;
 import cc.badideas.cosmatica.util.IntVector3;
@@ -12,6 +14,7 @@ import com.badlogic.gdx.utils.Queue;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.world.BlockPosition;
+import finalforeach.cosmicreach.world.BlockSelection;
 import finalforeach.cosmicreach.world.BlockSetter;
 import finalforeach.cosmicreach.world.blocks.BlockState;
 import finalforeach.cosmicreach.world.chunks.Chunk;
@@ -39,8 +42,14 @@ public class CosmaticaCommand extends Command {
 
         if (subcommand.equalsIgnoreCase("place")) {
             if (Cosmatica.selectedSchematic != null) {
-                Vector3 playerPos = InGame.getLocalPlayer().getEntity().getPosition();
-                SchematicManager.placeInWorld(InGame.world, Cosmatica.selectedSchematic, (int)playerPos.x, (int)playerPos.y, (int)playerPos.z);
+                IntVector3 origin = Cosmatica.placeOrigin;
+
+                if (origin == null) {
+                    Vector3 playerPos = InGame.getLocalPlayer().getEntity().getPosition();
+                    origin = new IntVector3((int)playerPos.x, (int)playerPos.y, (int)playerPos.z);
+                }
+
+                SchematicManager.placeInWorld(InGame.world, Cosmatica.selectedSchematic, origin.x(), origin.y(), origin.z());
                 ChatProvider.getInstance().sendMessage(Cosmatica.CHAT_AUTHOR, "Schematic placed!");
             }
             else {
@@ -68,6 +77,15 @@ public class CosmaticaCommand extends Command {
             else {
                 ChatProvider.getInstance().sendMessage(Cosmatica.CHAT_AUTHOR, "Nothing to undo!");
             }
+        }
+        else if (subcommand.equalsIgnoreCase("origin")) {
+            BlockSelection selection = ((InGameAccessor) GameState.IN_GAME).getBlockSelection();
+            BlockPosition lookPos = ((BlockSelectionAccessor) selection).getSelectedBlockPos();
+            Cosmatica.placeOrigin = new IntVector3(lookPos.getGlobalX(), lookPos.getGlobalY(), lookPos.getGlobalZ());
+            ChatProvider.getInstance().sendMessage(Cosmatica.CHAT_AUTHOR, String.format("Set schematic origin to [%d %d %d].",
+                    Cosmatica.placeOrigin.x(),
+                    Cosmatica.placeOrigin.y(),
+                    Cosmatica.placeOrigin.z()));
         }
     }
 }

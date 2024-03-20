@@ -4,7 +4,9 @@
   "package": "cc.badideas.cosmatica.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "InGameMixin"
+    "InGameMixin",
+    "InGameAccessor",
+    "BlockSelectionAccessor"
   ],
   "client": [],
   "server": [],

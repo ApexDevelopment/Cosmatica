@@ -3,6 +3,7 @@ package cc.badideas.cosmatica;
 import cc.badideas.cosmatica.block.PositionedBlockState;
 import cc.badideas.cosmatica.commands.CosmaticaCommand;
 import cc.badideas.cosmatica.schematic.Schematic;
+import cc.badideas.cosmatica.util.IntVector3;
 import nanobass.qol.ChatAuthor;
 import nanobass.qol.command.CommandProvider;
 import net.fabricmc.api.ModInitializer;
@@ -22,6 +23,9 @@ public class Cosmatica implements ModInitializer {
 
     public static Schematic selectedSchematic = null;
     public static Queue<PositionedBlockState> overwrittenBlocks = new LinkedList<>();
+    public static IntVector3 startPos = null;
+    public static IntVector3 endPos = null;
+    public static IntVector3 placeOrigin = null;
 
     @Override
     public void onInitialize() {
@@ -49,7 +53,16 @@ public class Cosmatica implements ModInitializer {
 
     public static File getSchematicFolder() {
         File dir = new File(getSchematicFolderLocation());
+        //noinspection ResultOfMethodCallIgnored
         dir.mkdirs();
         return dir;
+    }
+
+    public static void reset() {
+        selectedSchematic = null;
+        startPos = null;
+        endPos = null;
+        placeOrigin = null;
+        overwrittenBlocks.clear();
     }
 }
