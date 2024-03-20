@@ -24,7 +24,7 @@ public class SchematicListMenu extends GameState {
         float yPlacement = -200.0F;
 
         for (Schematic schematic : SchematicManager.getSchematics()) {
-            UIElement schematicButton = new UIElement(0.0F, yPlacement, 250.0F, 50.0F) {
+            UIElement schematicButton = new UIElement(0.0F, yPlacement, 400.0F, 50.0F) {
                 public void onClick() {
                     super.onClick();
 
@@ -40,7 +40,7 @@ public class SchematicListMenu extends GameState {
                     GameState.switchToGameState(previousState);
                 }
             };
-            schematicButton.setText(schematic.getName());
+            schematicButton.setText(schematic.getName() + " by " + schematic.getAuthor());
             schematicButton.show();
             this.uiElements.add(schematicButton);
             yPlacement += 55;

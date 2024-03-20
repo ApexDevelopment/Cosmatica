@@ -20,12 +20,16 @@ public class Cosmatica implements ModInitializer {
     public static final String SCHEMATIC_DIRECTORY = "schematics";
     public static final Logger LOGGER = Logger.getLogger(MOD_ID);
     public static final ChatAuthor CHAT_AUTHOR = new ChatAuthor("Cosmatica Mod");
+    public static final ChatAuthor BLANK_AUTHOR = new ChatAuthor("");
 
     public static Schematic selectedSchematic = null;
     public static Queue<PositionedBlockState> overwrittenBlocks = new LinkedList<>();
     public static IntVector3 startPos = null;
     public static IntVector3 endPos = null;
     public static IntVector3 placeOrigin = null;
+    public static String schematicAuthor = null;
+    public static String schematicId = null;
+    public static String schematicName = null;
 
     @Override
     public void onInitialize() {

@@ -1,11 +1,13 @@
 package cc.badideas.cosmatica.gamestates;
 
 import cc.badideas.cosmatica.Cosmatica;
+import cc.badideas.cosmatica.schematic.Schematic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ScreenUtils;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.io.SaveLocation;
 import finalforeach.cosmicreach.ui.UIElement;
+import nanobass.qol.ChatProvider;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +36,22 @@ public class CosmaticaMenu extends GameState {
         UIElement createSchematicButton = new UIElement(0.0F, -100.0F, 250.0F, 50.0F) {
             public void onClick() {
                 super.onClick();
-                Cosmatica.LOGGER.info("TODO!");
+                if (Cosmatica.startPos == null || Cosmatica.endPos == null) {
+                    ChatProvider.getInstance().sendMessage(Cosmatica.CHAT_AUTHOR, String.join(" ",
+                            "Select a start and end position for your schematic.",
+                            "You can do this with `/cosmatica start` and `/cosmatica end`."
+                    ));
+                    switchToGameState(IN_GAME);
+                    return;
+                }
+
+                Schematic.createFileFromUserSelection();
+                ChatProvider.getInstance().sendMessage(Cosmatica.CHAT_AUTHOR, String.join(" ",
+                        "Schematic was exported to schematics directory!",
+                        "Filename:",
+                        "`" + Cosmatica.schematicId + ".zip`"
+                ));
+                switchToGameState(IN_GAME);
             }
         };
         createSchematicButton.setText("Create New Schematic");

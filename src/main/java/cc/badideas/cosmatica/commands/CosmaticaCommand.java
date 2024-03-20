@@ -1,10 +1,8 @@
 package cc.badideas.cosmatica.commands;
 
-import cc.badideas.cosmatica.*;
+import cc.badideas.cosmatica.Cosmatica;
 import cc.badideas.cosmatica.block.PositionedBlockState;
 import cc.badideas.cosmatica.gamestates.CosmaticaMenu;
-import cc.badideas.cosmatica.mixin.BlockSelectionAccessor;
-import cc.badideas.cosmatica.mixin.InGameAccessor;
 import cc.badideas.cosmatica.schematic.SchematicManager;
 import cc.badideas.cosmatica.util.CosmaticaUtils;
 import cc.badideas.cosmatica.util.IntVector3;
@@ -14,7 +12,6 @@ import com.badlogic.gdx.utils.Queue;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.world.BlockPosition;
-import finalforeach.cosmicreach.world.BlockSelection;
 import finalforeach.cosmicreach.world.BlockSetter;
 import finalforeach.cosmicreach.world.blocks.BlockState;
 import finalforeach.cosmicreach.world.chunks.Chunk;
@@ -26,7 +23,9 @@ import java.util.Map;
 
 public class CosmaticaCommand extends Command {
     public CosmaticaCommand() {
-        super("cosmatica", "Opens the Cosmatica menu", new Argument("subcommand", 0, false, ArgumentType.String));
+        super("cosmatica", "Opens the Cosmatica menu",
+                new Argument("subcommand", 0, false, ArgumentType.String),
+                new Argument("arg", 1, false, ArgumentType.String));
     }
 
     @Override
@@ -79,13 +78,76 @@ public class CosmaticaCommand extends Command {
             }
         }
         else if (subcommand.equalsIgnoreCase("origin")) {
-            BlockSelection selection = ((InGameAccessor) GameState.IN_GAME).getBlockSelection();
-            BlockPosition lookPos = ((BlockSelectionAccessor) selection).getSelectedBlockPos();
-            Cosmatica.placeOrigin = new IntVector3(lookPos.getGlobalX(), lookPos.getGlobalY(), lookPos.getGlobalZ());
+            Cosmatica.placeOrigin = CosmaticaUtils.getPlayerLookPos();
             ChatProvider.getInstance().sendMessage(Cosmatica.CHAT_AUTHOR, String.format("Set schematic origin to [%d %d %d].",
                     Cosmatica.placeOrigin.x(),
                     Cosmatica.placeOrigin.y(),
                     Cosmatica.placeOrigin.z()));
+        }
+        else if (subcommand.equalsIgnoreCase("start")) {
+            Cosmatica.startPos = CosmaticaUtils.getPlayerLookPos();
+            ChatProvider.getInstance().sendMessage(Cosmatica.CHAT_AUTHOR, String.format("Set new schematic start position to [%d %d %d].",
+                    Cosmatica.startPos.x(),
+                    Cosmatica.startPos.y(),
+                    Cosmatica.startPos.z()));
+        }
+        else if (subcommand.equalsIgnoreCase("end")) {
+            Cosmatica.endPos = CosmaticaUtils.getPlayerLookPos();
+            ChatProvider.getInstance().sendMessage(Cosmatica.CHAT_AUTHOR, String.format("Set new schematic end position to [%d %d %d].",
+                    Cosmatica.endPos.x(),
+                    Cosmatica.endPos.y(),
+                    Cosmatica.endPos.z()));
+        }
+        else if (subcommand.equalsIgnoreCase("id")) {
+            if (!parameters.containsKey("arg")) {
+                ChatProvider.getInstance().sendMessage(Cosmatica.CHAT_AUTHOR, "Please specify the ID.");
+                return;
+            }
+
+            Cosmatica.schematicId = parameters.get("arg").getAsString();
+            ChatProvider.getInstance().sendMessage(Cosmatica.CHAT_AUTHOR, "ID updated.");
+        }
+        else if (subcommand.equalsIgnoreCase("name")) {
+            if (!parameters.containsKey("arg")) {
+                ChatProvider.getInstance().sendMessage(Cosmatica.CHAT_AUTHOR, "Please specify the name.");
+                return;
+            }
+
+            Cosmatica.schematicName = parameters.get("arg").getAsString();
+            ChatProvider.getInstance().sendMessage(Cosmatica.CHAT_AUTHOR, "Name updated.");
+        }
+        else if (subcommand.equalsIgnoreCase("author")) {
+            if (!parameters.containsKey("arg")) {
+                ChatProvider.getInstance().sendMessage(Cosmatica.CHAT_AUTHOR, "Please specify the author.");
+                return;
+            }
+
+            Cosmatica.schematicAuthor = parameters.get("arg").getAsString();
+            ChatProvider.getInstance().sendMessage(Cosmatica.CHAT_AUTHOR, "Author updated.");
+        }
+        else if (subcommand.equalsIgnoreCase("help")) {
+            String helpString = """
+                            Usage: /cosmatica [subcommand] [subcommand argument]
+                            /cosmatica - Opens the menu.
+                            
+                            PLACING SCHEMATICS:
+                            /cosmatica origin - Sets the origin of the schematic to the block you are looking at.
+                            /cosmatica place - Places the selected schematic in the world.
+                            
+                            CREATING SCHEMATICS:
+                            /cosmatica id [string] - Set the ID of the schematic. String cannot contain spaces.
+                            /cosmatica name [string] - Set the name of the schematic. String cannot contain spaces.
+                            /cosmatica author [string] - Set the author of the schematic. No spaces.
+                            /cosmatica start - Sets the starting coordinates of the schematic to the block you're looking at.
+                            /cosmatica end - Sets the ending coordinates of the schematic to the block you're looking at.
+                            """;
+
+            for (String line : helpString.split("\n")) {
+                ChatProvider.getInstance().sendMessage(Cosmatica.BLANK_AUTHOR, line);
+            }
+        }
+        else {
+            ChatProvider.getInstance().sendMessage(Cosmatica.CHAT_AUTHOR, "Unknown subcommand! Please use `/cosmatica help`.");
         }
     }
 }
