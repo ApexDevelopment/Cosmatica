@@ -19,6 +19,6 @@
   "depends": {
     "fabricloader": ">=${loader_version}",
     "cosmic_reach": ">=${cosmic_reach_version}",
-    "nanobass-qol": "1.6.3"
+    "nanobass-qol": ">=1.6.4"
   }
 }

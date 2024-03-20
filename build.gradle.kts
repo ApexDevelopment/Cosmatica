@@ -57,7 +57,7 @@ dependencies {
 dependencies {
     // shadow == NO EMBED
     // implementation == EMBED
-    shadow(files("$projectDir/run/mods/nanobass-qol-1.6.3.jar"))
+    shadow(files("$projectDir/run/mods/nanobass-qol-1.6.4.jar"))
 }
 
 base.archivesName = modJarName

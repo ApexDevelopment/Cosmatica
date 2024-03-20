@@ -3,7 +3,6 @@ package cc.badideas.cosmatica.schematic;
 import cc.badideas.cosmatica.Cosmatica;
 import cc.badideas.cosmatica.block.PalettizedBlock;
 import cc.badideas.cosmatica.block.PositionedBlockState;
-import cc.badideas.cosmatica.schematic.Schematic;
 import cc.badideas.cosmatica.util.CosmaticaUtils;
 import cc.badideas.cosmatica.util.IntVector3;
 import com.badlogic.gdx.utils.JsonReader;
@@ -141,7 +140,7 @@ public class SchematicManager {
             BlockSetter.replaceBlock(world, blockState, blockPosition, new Queue<>());
         }
 
-        Cosmatica.LOGGER.info(String.format("Placed %d blocks, %d errors.", numBlocks, numErrors));
+        Cosmatica.LOGGER.info(String.format("Placed %d blocks, %d errors.", numBlocks - numErrors, numErrors));
     }
 
     public static void placeInWorld(World world, String schematicId, int offsetX, int offsetY, int offsetZ) {

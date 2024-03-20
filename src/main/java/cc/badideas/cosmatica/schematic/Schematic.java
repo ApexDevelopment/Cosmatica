@@ -4,10 +4,8 @@ import cc.badideas.cosmatica.Cosmatica;
 import cc.badideas.cosmatica.block.PalettizedBlock;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import finalforeach.cosmicreach.world.blocks.Block;
 import finalforeach.cosmicreach.world.blocks.BlockState;
-import nanobass.qol.exception.BlockNotFoundException;
-import nanobass.qol.exception.BlockStateNotValidException;
+import nanobass.qol.command.CommandParser;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,59 +50,6 @@ public class Schematic {
         return cosmicReachVersion;
     }
 
-    private static Block parseBlock(String blockId, boolean allowAutoBase) throws BlockNotFoundException {
-        for (Block block : Block.allBlocks) {
-            boolean matches = block.getStringId().equals(blockId);
-            if (!matches && allowAutoBase) {
-                matches = block.getStringId().equals("base:" + blockId);
-            }
-            if (matches) {
-                return block;
-            }
-        }
-
-        throw new BlockNotFoundException(blockId);
-    }
-
-    private static BlockState parseBlockState(String blockState, boolean allowAutoBase) throws BlockStateNotValidException {
-        int blockIdEnd = blockState.indexOf("[");
-        if (blockIdEnd == -1) {
-            blockIdEnd = blockState.length();
-        }
-
-        int stateStringStart = blockState.indexOf("[");
-        if (stateStringStart == -1) {
-            stateStringStart = blockState.length();
-        } else {
-            stateStringStart++;
-        }
-
-        int stateStringEnd = blockState.indexOf("]");
-        if (stateStringEnd == -1) {
-            stateStringEnd = blockState.length();
-        }
-
-        String blockId = blockState.substring(0, blockIdEnd);
-        String stateString = blockState.substring(stateStringStart, stateStringEnd);
-
-        Block block;
-
-        try {
-            block = parseBlock(blockId, allowAutoBase);
-        } catch (BlockNotFoundException e) {
-            throw new BlockStateNotValidException(e, stateString);
-        }
-
-        if (stateString.isEmpty()) {
-            return block.getDefaultBlockState();
-        }
-        try {
-            return block.getBlockStateFromString(stateString);
-        } catch (RuntimeException e) {
-            throw new BlockStateNotValidException(block, stateString);
-        }
-    }
-
     private void updateCachedSchematicData() throws IOException {
         File schematicFile = new File(schematicFilePath);
         if (lastRead < schematicFile.lastModified()) {
@@ -124,7 +69,7 @@ public class Schematic {
                         int size = blockStatesJSON.size;
 
                         for (int i = 0; i < size; i++) {
-                            BlockState state = parseBlockState(blockStatesJSON.getString(i), true);
+                            BlockState state = CommandParser.parseBlockState(blockStatesJSON.getString(i), true);
                             blockStates.add(state);
                         }
                     }
