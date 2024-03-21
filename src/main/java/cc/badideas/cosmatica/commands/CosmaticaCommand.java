@@ -50,6 +50,7 @@ public class CosmaticaCommand extends Command {
 
                 SchematicManager.placeInWorld(InGame.world, Cosmatica.selectedSchematic, origin.x(), origin.y(), origin.z());
                 ChatProvider.getInstance().sendMessage(Cosmatica.CHAT_AUTHOR, "Schematic placed!");
+                Cosmatica.placeOrigin = null;
             }
             else {
                 ChatProvider.getInstance().sendMessage(Cosmatica.CHAT_AUTHOR, "No schematic selected! Use `/cosmatica` to open the menu.");
@@ -132,7 +133,7 @@ public class CosmaticaCommand extends Command {
                             
                             PLACING SCHEMATICS:
                             /cosmatica origin - Sets the origin of the schematic to the block you are looking at.
-                            /cosmatica place - Places the selected schematic in the world.
+                            /cosmatica place - Places the selected schematic in the world. Clears the origin afterwards.
                             /cosmatica undo - Undo placing a schematic.
                             
                             CREATING SCHEMATICS:
