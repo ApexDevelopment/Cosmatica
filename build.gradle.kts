@@ -1,7 +1,7 @@
 import de.undercouch.gradle.tasks.download.Download
 
 object Properties {
-    const val MOD_VERSION = "0.0.1"
+    const val MOD_VERSION = "0.0.2"
     const val MOD_NAME = "Cosmatica"
     const val MODID = "cosmatica"
     const val MAVEN_GROUP = "cc.badideas.cosmatica"

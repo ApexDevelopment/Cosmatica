@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 public class Cosmatica implements ModInitializer {
     public static final String MOD_ID = "cosmatica";
-    public static final String MOD_VERSION = "0.0.1";
+    public static final String MOD_VERSION = "0.0.2";
     public static final String MANIFEST_VERSION = "1";
     public static final String SCHEMATIC_DIRECTORY = "schematics";
     public static final Logger LOGGER = Logger.getLogger(MOD_ID);
