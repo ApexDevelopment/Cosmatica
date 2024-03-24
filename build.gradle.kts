@@ -5,7 +5,7 @@ object Properties {
     const val MOD_NAME = "Cosmatica"
     const val MODID = "cosmatica"
     const val MAVEN_GROUP = "cc.badideas.cosmatica"
-    const val COSMIC_REACH_VERSION = "0.1.9"
+    const val COSMIC_REACH_VERSION = "0.1.13"
     const val LOADER_VERSION = "0.15.7"
 }
 
@@ -57,7 +57,7 @@ dependencies {
 dependencies {
     // shadow == NO EMBED
     // implementation == EMBED
-    shadow(files("$projectDir/run/mods/nanobass-qol-1.6.4.jar"))
+    shadow(files("$projectDir/run/mods/nanobass-chat-2.0.0.jar"))
 }
 
 base.archivesName = modJarName

@@ -91,8 +91,8 @@ public class CosmaticaMenu extends GameState {
         IN_GAME.resize(width, height);
     }
 
-    public void render() {
-        super.render();
+    public void render(float partTick) {
+        super.render(partTick);
         if (!this.firstFrame && Gdx.input.isKeyJustPressed(111)) {
             switchToGameState(IN_GAME);
         }
@@ -104,7 +104,7 @@ public class CosmaticaMenu extends GameState {
         Gdx.gl.glCullFace(1029);
         Gdx.gl.glEnable(3042);
         Gdx.gl.glBlendFunc(770, 771);
-        IN_GAME.render();
+        IN_GAME.render(partTick);
 
         this.drawUIElements();
         this.firstFrame = false;

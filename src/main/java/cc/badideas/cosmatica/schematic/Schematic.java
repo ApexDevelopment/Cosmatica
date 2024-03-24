@@ -10,6 +10,7 @@ import finalforeach.cosmicreach.RuntimeInfo;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.world.blocks.BlockState;
 import nanobass.qol.ChatProvider;
+import nanobass.qol.command.ArgumentParser;
 import nanobass.qol.command.CommandParser;
 
 import java.io.*;
@@ -169,7 +170,7 @@ public class Schematic {
                         int size = blockStatesJSON.size;
 
                         for (int i = 0; i < size; i++) {
-                            BlockState state = CommandParser.parseBlockState(blockStatesJSON.getString(i), true);
+                            BlockState state = ArgumentParser.parseBlockState(blockStatesJSON.getString(i), true);
                             blockStates.add(state);
                         }
                     }

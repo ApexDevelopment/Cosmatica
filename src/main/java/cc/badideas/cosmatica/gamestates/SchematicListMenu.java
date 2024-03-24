@@ -57,8 +57,8 @@ public class SchematicListMenu extends GameState {
         this.uiElements.add(cancelButton);
     }
 
-    public void render() {
-        super.render();
+    public void render(float partTick) {
+        super.render(partTick);
         if (Gdx.input.isKeyJustPressed(111)) {
             switchToGameState(previousState);
         }
