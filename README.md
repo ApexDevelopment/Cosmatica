@@ -4,7 +4,7 @@ Cosmatica provides a way to share your Cosmic Reach builds, as well as import ot
 
 ## Dependencies
 
-Cosmatica depends on `nanobass-qol` **1.6.4**, which itself depends on `nanobass-core`.
+Cosmatica depends on `nanobass_chat` **2.x.x**, which itself depends on `nanobass_common` as of writing. There is currently an effort underway to merge `nanobass_common` into Flux API.
 
 ## How to use
 
