@@ -5,7 +5,7 @@ object Properties {
     const val MOD_NAME = "Cosmatica"
     const val MODID = "cosmatica"
     const val MAVEN_GROUP = "cc.badideas.cosmatica"
-    const val COSMIC_REACH_VERSION = "0.1.14"
+    const val COSMIC_REACH_VERSION = "0.1.15"
     const val LOADER_VERSION = "0.15.7"
 }
 
